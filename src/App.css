@@ -1,0 +1,271 @@
+#root{
+  max-width: 1280px;   
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+  margin-top: 120px;
+}
+
+
+
+
+/*  estilos del header  */
+
+.mi-header {
+ 
+  position: fixed; /* Fija el header en la parte superior */
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%; /* Asegura que ocupe todo el ancho de la ventana */
+  max-width: 1280px; /* Limita el ancho máximo del header */
+  margin: 0 auto; /* Centra el header horizontalmente */
+  background-color: #4CAF50;
+  padding: 20px ; /* Espaciado interno */
+  text-align: center;
+  color: white;
+  z-index: 1000; /* Asegura que el header esté por encima de otros elementos */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+
+  
+}
+
+.mi-header h1 {
+  
+  font-size: 24px;
+  
+}
+
+
+/* estilos del nav dentro del header */
+
+.mi-nav {
+  background-color: #333;
+  color: white;
+  padding: 10px;
+}
+
+.mi-nav-list {
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  margin: 0;
+  padding: 0;
+}
+
+.mi-nav-link {
+  color: white;
+  text-decoration: none;
+  font-size: 16px;
+  transition: font-weight 0.3s ease; 
+}
+
+.mi-nav-link:hover {
+  font-weight: bold; 
+}
+.mi-nav-link svg {
+  font-size: 20px; 
+  vertical-align: middle; 
+}
+.mi-nav-link:hover svg {
+  transform: scale(1.2); 
+  
+}
+.cart-count {
+  background-color: red;
+  color: white;
+  border-radius: 50%;
+  padding: 2px 6px;
+  font-size: 12px;
+  position: absolute;
+  top: -10px; 
+  right: -10px; 
+  font-weight: bold;
+}
+.cart-icon-container {
+  position: relative; 
+  display: inline-block;
+}
+
+
+/* estilos del footer */
+.mi-footer {
+  position: fixed;
+  bottom: 0;
+  background-color: #ada9a9;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1280px;
+  margin: 0 auto; 
+  box-sizing: border-box;
+}
+
+.mi-footer-text {
+  margin: 0;
+  padding-left: 10px;
+  font-size: 14px;
+  color: #333;
+}
+
+.mi-footer-icons {
+  margin-right: 10px;
+}
+
+.mi-footer-icon {
+  margin: 0 10px;
+  color: inherit; 
+  text-decoration: none; 
+  transition: transform 0.3s ease; 
+}
+
+.mi-footer-icon:hover {
+  transform: scale(1.2); 
+}
+
+.mi-footer-icon.facebook {
+  color: #4267B2;
+}
+
+.mi-footer-icon.twitter {
+  color: #1DA1F2;
+}
+
+.mi-footer-icon.instagram {
+  color: #C13584;
+}
+
+/* estilos de Gallery */
+.mi-galleryDiv {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 10px;
+  justify-content: center;
+  margin-top: 20px;
+  margin-bottom: 100px;
+}
+.mi-galleryDiv img {
+  width: 300px; 
+  height: 350px;
+  object-fit: cover; 
+  
+}
+.mi-galleryDiv p {
+  margin-top: 5px;
+  font-size: 14px;
+  color: #333;
+}
+.mi-gallery-item {
+  text-align: center;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+}
+.mi-gallery-img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+.add-to-cart-btn {
+  margin-top: 10px;
+  width: 100%; 
+}
+
+
+
+/* estilos del footer  */
+footer {
+  max-width: 1280px; /* Limita el ancho máximo del footer */
+  margin: 0 auto; /* Centra el footer horizontalmente */
+  padding: 1rem; /* Espaciado interno */
+  background-color: #f1f1f1; /* Color de fondo */
+  display: flex; /* Alinea los elementos en una fila */
+  justify-content: space-between; /* Espacia los elementos entre sí */
+  align-items: center; /* Centra los elementos verticalmente */
+  position: fixed; /* Fija el footer en la parte inferior */
+  bottom: 0; /* Asegura que esté en la parte inferior */
+  left: 0; /* Asegura que esté alineado con el borde izquierdo */
+  right: 0; /* Asegura que esté alineado con el borde derecho */
+}
+footer p {
+  margin: 0;
+  font-size: 14px;
+  color: #333;
+}
+footer a {
+  margin: 0 10px;
+  color: inherit; /* Usa el color del texto actual */
+  text-decoration: none;
+}
+
+
+/* estilos para login */
+.login-container {
+  max-width: 400px;
+  margin: 50px auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  display: flex; 
+  flex-direction: column; 
+  align-items: center; 
+}
+
+
+.login-container h2 {
+  margin-bottom: 20px;
+  color: #333;
+}
+.login-form {
+  width: 100%; 
+}
+
+.login-form .form-group {
+  margin-bottom: 15px;
+  text-align: left;
+  width: 100%;
+}
+
+.login-form label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #555;
+}
+
+.login-form input, .login-button {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
+.login-form input:focus {
+  border-color: #4CAF50;
+  outline: none;
+}
+
+.login-button {
+ 
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+ 
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.login-button:hover {
+  background-color: #135a17;
+}
