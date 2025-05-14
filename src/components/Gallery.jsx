@@ -31,7 +31,7 @@ function Gallery({ agregarAlCarrito }) {
                     />
                     <p>{foto.name}</p>
                     <Button
-                        variant="primary"
+                        variant="outline-secondary"
                         className="add-to-cart-btn"
                         onClick={() => agregarAlCarrito(foto.name)} 
                     >

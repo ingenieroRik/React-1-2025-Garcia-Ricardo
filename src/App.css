@@ -13,18 +13,18 @@
 
 .mi-header {
  
-  position: fixed; /* Fija el header en la parte superior */
+  position: fixed; 
   top: 0;
   left: 0;
   right: 0;
-  width: 100%; /* Asegura que ocupe todo el ancho de la ventana */
-  max-width: 1280px; /* Limita el ancho máximo del header */
-  margin: 0 auto; /* Centra el header horizontalmente */
-  background-color: #4CAF50;
-  padding: 20px ; /* Espaciado interno */
+  width: 100%; 
+  max-width: 1280px; 
+  margin: 0 auto; 
+  background-color: #80d883;
+  padding: 20px ; 
   text-align: center;
   color: white;
-  z-index: 1000; /* Asegura que el header esté por encima de otros elementos */
+  z-index: 1000; 
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
 
   
@@ -92,7 +92,7 @@
 .mi-footer {
   position: fixed;
   bottom: 0;
-  background-color: #ada9a9;
+  background-color: #d8d2d2;
   padding: 10px;
   display: flex;
   justify-content: space-between;
@@ -129,7 +129,7 @@
 }
 
 .mi-footer-icon.twitter {
-  color: #1DA1F2;
+  color: #2c90ce;
 }
 
 .mi-footer-icon.instagram {
@@ -180,17 +180,17 @@
 
 /* estilos del footer  */
 footer {
-  max-width: 1280px; /* Limita el ancho máximo del footer */
-  margin: 0 auto; /* Centra el footer horizontalmente */
-  padding: 1rem; /* Espaciado interno */
-  background-color: #f1f1f1; /* Color de fondo */
-  display: flex; /* Alinea los elementos en una fila */
-  justify-content: space-between; /* Espacia los elementos entre sí */
-  align-items: center; /* Centra los elementos verticalmente */
-  position: fixed; /* Fija el footer en la parte inferior */
-  bottom: 0; /* Asegura que esté en la parte inferior */
-  left: 0; /* Asegura que esté alineado con el borde izquierdo */
-  right: 0; /* Asegura que esté alineado con el borde derecho */
+  max-width: 1280px; 
+  margin: 0 auto;
+  padding: 1rem; 
+  background-color: #f1f1f1; 
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center; 
+  position: fixed; 
+  bottom: 0; 
+  left: 0; 
+  right: 0; 
 }
 footer p {
   margin: 0;
