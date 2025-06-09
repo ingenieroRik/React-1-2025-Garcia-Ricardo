@@ -12,7 +12,7 @@ function Footer() {
         
         <footer className="mi-footer">
             <p >
-                &copy; 2025 - Mi Aplicación React
+                &copy; 2025 - Juli García Fotografía
             </p>
             <div className="mi-footer-icons" >
                 <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="mi-footer-icon facebook">

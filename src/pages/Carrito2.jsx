@@ -1,18 +1,69 @@
 
+
 import React from 'react';
 import { Table, Button, Container, Row, Col } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { useNavigate } from 'react-router-dom';
 
-function Carrito() {
-    // productos en el carrito
-    const cartItems = [
-        { id: 1, name: 'Foto 1', price: 10.99, quantity: 2 },
-        { id: 2, name: 'Foto 2', price: 15.49, quantity: 1 },
-        { id: 3, name: 'Foto 3', price: 7.99, quantity: 3 },
-    ];
+    function Carrito({ carrito, eliminarDelCarrito, usuarios, setUsuarios }) {
+    const total = carrito.reduce((acc, item) => acc + item.price, 0);
+    const navigate = useNavigate(); // Inicializar useNavigate
 
-    // Calcular el total
-    const total = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
+
+        const handleCompra = async () => {
+    try {
+        // Verificar si hay items en el carrito
+        if (carrito.length === 0) {
+            alert('El carrito está vacío');
+            return;
+        }
+        // Obtener el email del usuario actual
+        
+        const currentUserEmail = localStorage.getItem('currentUserEmail');
+        if (!currentUserEmail) {
+            alert('Por favor, inicia sesión para realizar la compra');
+            return;
+        }
+        // Encontrar el usuario actual
+        const usuarioActual = usuarios.find(u => u.email === currentUserEmail);
+        if (usuarioActual) {
+            // Crear una copia del carrito antes de limpiarlo
+            const itemsComprados = [...carrito];
+            // Actualizar usuarios con la nueva compra
+            const nuevosUsuarios = usuarios.map(u => {
+                if (u.email === usuarioActual.email) {
+                    return {
+                        ...u,
+                        compras: [...(u.compras || []), {
+                            fecha: new Date().toISOString(),
+                            total: total,
+                            items: itemsComprados
+                        }]
+                    };
+                }
+                return u;
+            });
+            // Actualizar el estado de usuarios
+            setUsuarios(nuevosUsuarios);
+            // Limpiar el carrito de una sola vez
+            eliminarDelCarrito('CLEAR_ALL');
+            alert('¡Compra realizada con éxito!');
+            // Redirigir a la página de factura y pasar los datos necesarios
+            navigate('/factura', {
+                state: {
+                    name: usuarioActual.name, // Asegúrate de que el nombre esté aquí
+                    email: usuarioActual.email,
+                    items: itemsComprados,
+                    total: total
+                },
+            });
+        }
+    } catch (error) {
+        console.error('Error durante la compra:', error);
+        alert('Hubo un error al procesar la compra');
+    }
+};
+
 
     return (
         <Container className="mt-3">
@@ -23,19 +74,21 @@ function Carrito() {
                         <thead>
                             <tr>
                                 <th>Producto</th>
-                                <th>Precio</th>                             
-                               
-                                <th>Acciones</th> {/* Nueva columna para el botón eliminar */}
+                                <th>Precio</th>
+                                <th>Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {cartItems.map((item) => (
-                                <tr key={item.id}>
+                            {carrito.map((item, index) => (
+                                <tr key={index}>
                                     <td>{item.name}</td>
-                                                               
-                                    <td>${(item.price * item.quantity).toFixed(2)}</td>
+                                    <td>${item.price.toFixed(2)}</td>
                                     <td>
-                                        <Button variant="danger" size="sm">
+                                        <Button
+                                            variant="danger"
+                                            size="sm"
+                                            onClick={() => eliminarDelCarrito(item.name)}
+                                        >
                                             Eliminar
                                         </Button>
                                     </td>
@@ -48,7 +101,14 @@ function Carrito() {
             <Row className="mt-3">
                 <Col className="text-end">
                     <h4>Total: ${total.toFixed(2)}</h4>
-                    <Button variant="success" className="mt-3">Proceder al Pago</Button>
+                    <Button 
+                        variant="success" 
+                        className="mt-2"
+                        onClick={handleCompra}
+                        disabled={carrito.length === 0}
+                    >
+                        Comprar
+                    </Button>
                 </Col>
             </Row>
         </Container>
@@ -56,3 +116,4 @@ function Carrito() {
 }
 
 export default Carrito;
+

@@ -1,66 +1,57 @@
-
-
 import React from 'react';
 import { Table, Button, Container, Row, Col } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-
+import { useNavigate } from 'react-router-dom';
 
 function Carrito({ carrito, eliminarDelCarrito, usuarios, setUsuarios }) {
     const total = carrito.reduce((acc, item) => acc + item.price, 0);
-
-    
+    const navigate = useNavigate();
 
     const handleCompra = async () => {
-    try {
-        // Verificar si hay items en el carrito
-        if (carrito.length === 0) {
-            alert('El carrito está vacío');
-            return;
+        try {
+            if (carrito.length === 0) {
+                alert('El carrito está vacío');
+                return;
+            }
+            const currentUserEmail = localStorage.getItem('currentUserEmail');
+            if (!currentUserEmail) {
+                alert('Por favor, inicia sesión para realizar la compra');
+                return;
+            }
+            const usuarioActual = usuarios.find(u => u.email === currentUserEmail);
+            if (usuarioActual) {
+                const itemsComprados = [...carrito];
+                // Registrar la compra en el usuario actual
+                const nuevosUsuarios = usuarios.map(u => {
+                    if (u.email === usuarioActual.email) {
+                        return {
+                            ...u,
+                            compras: [...(u.compras || []), {
+                                fecha: new Date().toISOString(),
+                                total: total,
+                                items: itemsComprados
+                            }]
+                        };
+                    }
+                    return u;
+                });
+                setUsuarios(nuevosUsuarios);
+                eliminarDelCarrito('CLEAR_ALL');
+                alert('¡Compra realizada con éxito!');
+                navigate('/factura', {
+                    state: {
+                        name: usuarioActual.nombre || usuarioActual.name,
+                        email: usuarioActual.email,
+                        items: itemsComprados,
+                        total: total
+                    },
+                });
+            }
+        } catch (error) {
+            console.error('Error durante la compra:', error);
+            alert('Hubo un error al procesar la compra');
         }
-        
-        // Obtener el email del usuario actual
-        const currentUserEmail = localStorage.getItem('currentUserEmail');
-        
-        if (!currentUserEmail) {
-            alert('Por favor, inicia sesión para realizar la compra');
-            return;
-        }
-        
-        // Encontrar el usuario actual
-        const usuarioActual = usuarios.find(u => u.email === currentUserEmail);
-        
-        if (usuarioActual) {
-            // Crear una copia del carrito antes de limpiarlo
-            const itemsComprados = [...carrito];
-            
-            // Actualizar usuarios con la nueva compra
-            const nuevosUsuarios = usuarios.map(u => {
-                if (u.email === usuarioActual.email) {
-                    return {
-                        ...u,
-                        compras: [...(u.compras || []), {
-                            fecha: new Date().toISOString(),
-                            total: total,
-                            items: itemsComprados
-                        }]
-                    };
-                }
-                return u;
-            });
-            
-            // Actualizar el estado de usuarios
-            setUsuarios(nuevosUsuarios);
-            
-            // Limpiar el carrito de una sola vez
-            eliminarDelCarrito('CLEAR_ALL');
-            
-            alert('¡Compra realizada con éxito!');
-        }
-    } catch (error) {
-        console.error('Error durante la compra:', error);
-        alert('Hubo un error al procesar la compra');
-    }
-};
+    };
 
     return (
         <Container className="mt-3">
@@ -113,4 +104,3 @@ function Carrito({ carrito, eliminarDelCarrito, usuarios, setUsuarios }) {
 }
 
 export default Carrito;
-
