@@ -1,7 +1,5 @@
-
-
 import React, { useState } from 'react';
-import Container  from 'react-bootstrap/Container';
+import Container from 'react-bootstrap/Container';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css';
 import RegistroUsuario from './pages/RegistroUsuario';
@@ -11,141 +9,96 @@ import Gallery from './components/Gallery';
 import Carrito from './pages/Carrito';
 import Login from './pages/Login';
 import RutaProtegida from './components/RutaProtegida';
-import UsuariosVentas from './pages/UsuariosVentas';
+import Miscompras from './components/Miscompras'; 
 import Factura from './components/Factura';
 import ListaUsuarios from './pages/ListaUsuarios';
 import UsuarioForm from './components/UsuarioForm';
 
 function App() {
-
-
-    
-
     // Usuarios por defecto
     const usuariosPorDefecto = [
-          { id: 1, nombre: "Ana", email: "ana@email.com", compras: [{}] }, //1 compra
-    { id: 2, nombre: "Luis", email: "luis@email.com", compras: [{}] },
-    { id: 3, nombre: "Sofía", email: "sofia@email.com", compras: [{}] }
+        { id: 1, nombre: "Ana", email: "ana@email.com", compras: [{}] },
+        { id: 2, nombre: "Luis", email: "luis@email.com", compras: [{}] },
+        { id: 3, nombre: "Sofía", email: "sofia@email.com", compras: [{}] }
     ];
-
-   const [usuarios, setUsuarios] = useState(usuariosPorDefecto);
-
-  //const [usuarios, setUsuarios = useState([]);
-  const [usuarioAEditar, setUsuarioAEditar] = useState(null);
-  const [contadorId, setContadorId] = useState(usuariosPorDefecto.length + 1); // Inicia el contador con el siguiente ID disponible
-
-    const agregarUsuario=(usuario)=>
-    {
-    const nuevoUsuario = { ...usuario, id: contadorId, compras: usuario.compras || [] };
-    setUsuarios([...usuarios, nuevoUsuario]);
-    setContadorId(contadorId + 1);
+    const [usuarios, setUsuarios] = useState(usuariosPorDefecto);
+    const [usuarioAEditar, setUsuarioAEditar] = useState(null);
+    const [contadorId, setContadorId] = useState(usuariosPorDefecto.length + 1);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [adminEmail] = useState('admin@admin.com');
+    const [currentUserEmail, setCurrentUserEmail] = useState('');
+    const [carrito, setCarrito] = useState([]);
+    const agregarUsuario = (usuario) => {
+        const nuevoUsuario = { ...usuario, id: contadorId, compras: usuario.compras || [] };
+        setUsuarios([...usuarios, nuevoUsuario]);
+        setContadorId(contadorId + 1);
     };
-
-
-                const actualizarUsuario = (usuarioActualizado) => {
-            setUsuarios(usuarios.map(p =>
-                p.id === usuarioActualizado.id
+    const actualizarUsuario = (usuarioActualizado) => {
+        setUsuarios(usuarios.map(p =>
+            p.id === usuarioActualizado.id
                 ? { ...p, ...usuarioActualizado, compras: p.compras }
                 : p
-            ));
-            setUsuarioAEditar(null);
-            };
-
-
-            const borrarUsuario= (id) => 
-            {
-            setUsuarios(usuarios.filter(p => p.id !== id));
-            };
-
-            const editarUsuario = (usuario) => 
-            {
-            setUsuarioAEditar(usuario);
-            };
-
-
-
-
-
-
+        ));
+        setUsuarioAEditar(null);
+    };
+    const borrarUsuario = (id) => {
+        setUsuarios(usuarios.filter(p => p.id !== id));
+    };
+    const editarUsuario = (usuario) => {
+        setUsuarioAEditar(usuario);
+    };
     const eliminarDelCarrito = (fotoName) => {
-    if (fotoName === 'CLEAR_ALL') {
-        setCarrito([]);
-    } else {
-        setCarrito((prevCarrito) => prevCarrito.filter((foto) => foto.name !== fotoName));
-    }
-};
-
-    const [isLoggedIn, setIsLoggedIn] = useState(false); 
-     const [adminEmail] = useState('admin@admin.com'); // Cambia por el email real del admin
-    const [currentUserEmail, setCurrentUserEmail] = useState('');
-
-   
-   
-    const registrarUsuario = (nuevoUsuario) => {
-    setUsuarios((prev) => [...prev, {...nuevoUsuario, compras: []}]);
-       };
-    
-
-    const [carrito, setCarrito] = useState([]); 
-
-   
-    
+        if (fotoName === 'CLEAR_ALL') {
+            setCarrito([]);
+        } else {
+            setCarrito((prevCarrito) => prevCarrito.filter((foto) => foto.name !== fotoName));
+        }
+    };
     const agregarAlCarrito = (fotoName) => {
-    // Verificar si la foto ya está en el carrito
-    const fotoExistente = carrito.find((foto) => foto.name === fotoName);
-    if (fotoExistente) {
-        // Si la foto ya está en el carrito, mostrar un alert
-        alert("La foto ya está en el carrito");
-    } else {
-        // Si no está, agregarla al carrito
-        setCarrito((prevCarrito) => [...prevCarrito, { name: fotoName, price: 15500 }]);
-    }
-};
+        const fotoExistente = carrito.find((foto) => foto.name === fotoName);
+        if (fotoExistente) {
+            alert("La foto ya está en el carrito");
+        } else {
+            setCarrito((prevCarrito) => [...prevCarrito, { name: fotoName, price: 15500 }]);
+        }
+    };
     const registrarCompra = (userId, compra) => {
-  setUsuarios(usuarios.map(u =>
-    u.id === userId
-      ? { ...u, compras: [...u.compras, compra] }
-      : u
-  ));
-};
-
-
-
-     // Suponiendo que el usuario actual es el primero en la lista de usuarios
-      const usuarioActual = usuarios.length > 0 ? usuarios[0] : { name: "Invitado", email: "invitado@example.com" };
+        setUsuarios(usuarios.map(u =>
+            u.id === userId
+                ? { ...u, compras: [...u.compras, compra] }
+                : u
+        ));
+    };
+    const registrarUsuario = (nuevoUsuario) => {
+        setUsuarios((prev) => [...prev, { ...nuevoUsuario, compras: [] }]);
+    };
+    // Suponiendo que el usuario actual es el primero en la lista de usuarios
+    const usuarioActual = usuarios.length > 0 ? usuarios[0] : { name: "Invitado", email: "invitado@example.com" };
     return (
         <Router>
-            <Header cartCount={carrito.length}  isLoggedIn={isLoggedIn}  setIsLoggedIn={setIsLoggedIn}/> {/* Pasa la cantidad de fotos al Header */}
+            <Header cartCount={carrito.length} isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
             <Routes>
-                <Route path="/" element={<Gallery agregarAlCarrito={agregarAlCarrito} isLoggedIn={isLoggedIn} />} />
+                <Route path="/" element={<Gallery agregarAlCarrito={agregarAlCarrito} isLoggedIn={isLoggedIn} carrito={carrito}/>} />
                 <Route
-                        path="/carrito"
-                        element={
-                    <RutaProtegida isLoggedIn={isLoggedIn}>
-                        <Carrito 
-                            carrito={carrito} 
-                            eliminarDelCarrito={eliminarDelCarrito}
-                            usuarios={usuarios}
-                            setUsuarios={setUsuarios}
-                            registrarCompra={registrarCompra}
-                            usuarioActual={usuarioActual}     // <-- pásale el usuario actual
-                            setCarrito={setCarrito}      
-                        /> 
-                    </RutaProtegida>
+                    path="/carrito"
+                    element={
+                        <RutaProtegida isLoggedIn={isLoggedIn}>
+                            <Carrito
+                                carrito={carrito}
+                                eliminarDelCarrito={eliminarDelCarrito}
+                                usuarios={usuarios}
+                                setUsuarios={setUsuarios}
+                                registrarCompra={registrarCompra}
+                                usuarioActual={usuarioActual}
+                                setCarrito={setCarrito}
+                            />
+                        </RutaProtegida>
                     }
-                    />
-                <Route path="/login" element={<Login 
-                   usuarios={usuarios} 
-                   setIsLoggedIn={setIsLoggedIn}
-                   setCurrentUserEmail={setCurrentUserEmail}
-                />} />
-
-
-
+                />
+                <Route path="/login" element={<Login usuarios={usuarios} setIsLoggedIn={setIsLoggedIn} setCurrentUserEmail={setCurrentUserEmail} />} />
                 <Route path="/registro" element={<RegistroUsuario registrarUsuario={registrarUsuario} usuarios={usuarios} />} />
-                   {/* Ruta protegida solo para el admin */}
-                <Route 
-                   path="/usuarios-ventas"
+                <Route
+                    path="/usuarios-ventas"
                     element={
                         <RutaProtegida isLoggedIn={isLoggedIn && currentUserEmail === adminEmail}>
                             <Container className="my-4">
@@ -165,25 +118,17 @@ function App() {
                         </RutaProtegida>
                     }
                 />
-    
-            <Route path="/factura" element={
-                    <Factura 
-                        name={usuarioActual.name} 
-                        email={usuarioActual.email} 
-                        items={carrito} 
+                <Route path="/factura" element={
+                    <Factura
+                        name={usuarioActual.name}
+                        email={usuarioActual.email}
+                        items={carrito}
                     />
                 } />
-
-
-
-
-        </Routes>
-
-
-
+                <Route path="/mis-compras" element={<Miscompras />} /> {/* Ruta para Mis Compras */}
+            </Routes>
             <Footer />
         </Router>
     );
 }
-
 export default App;

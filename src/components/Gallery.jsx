@@ -4,8 +4,9 @@ import React, { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../App.css';
+//import Carrito from './pages/Carrito';
 
-function Gallery({ agregarAlCarrito, isLoggedIn }) { 
+function Gallery({ agregarAlCarrito, isLoggedIn, carrito }) { 
     const [fotos, setFotos] = useState([]);
 
     useEffect(() => {
@@ -22,13 +23,45 @@ function Gallery({ agregarAlCarrito, isLoggedIn }) {
         Fotos();
     }, []);
 
+
+    const guardarCompra = (nombre, fecha) => {
+        const comprasGuardadas = JSON.parse(localStorage.getItem('compras')) || [];
+
+
+        
+        comprasGuardadas.push({ nombre, fecha });
+        localStorage.setItem('compras', JSON.stringify(comprasGuardadas));
+    };
+/*
     const handleAgregar = (fotoName) => {
         if (isLoggedIn) {
             agregarAlCarrito(fotoName);
+             // Guardar la compra en el localStorage
+            const fecha = new Date().toLocaleDateString(); // Obtener la fecha actual
+            guardarCompra(fotoName, fecha);
+            
         } else {
             alert('Debes iniciar sesión para agregar productos al carrito.');
         }
     };
+*/
+    const handleAgregar = (fotoName) => {
+    if (isLoggedIn) {
+        // Verifica si la foto ya está en el carrito
+        const fotoExistente = carrito.find((foto) => foto.name === fotoName);
+        if (fotoExistente) {
+            alert("La foto ya está en el carrito");
+        } else {
+            agregarAlCarrito(fotoName);
+            // Guardar la compra en el localStorage
+            const fecha = new Date().toLocaleDateString(); // Obtener la fecha actual
+            guardarCompra(fotoName, fecha);
+        }
+    } else {
+        alert('Debes iniciar sesión para agregar productos al carrito.');
+    }
+};
+
 
     return (
         <section className="mi-galleryDiv">

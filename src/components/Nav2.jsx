@@ -1,9 +1,11 @@
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link , useNavigate} from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
 import '../App.css';
-function Nav({ cartCount, isLoggedIn, setIsLoggedIn }) {
+
+
+function Nav({ cartCount, isLoggedIn, setIsLoggedIn }) { 
     const navigate = useNavigate();
     const handleLogout = () => {
         setIsLoggedIn(false);
@@ -13,10 +15,9 @@ function Nav({ cartCount, isLoggedIn, setIsLoggedIn }) {
         <nav className="mi-nav">
             <ul className="mi-nav-list">
                 <li><Link to="/" className="mi-nav-link">Todas las Fotos</Link></li>
-                {isLoggedIn && <li><Link to="/mis-compras" className="mi-nav-link">Mis Compras</Link></li>} {/* Solo mostrar si el usuario está logueado */}
                 <li>
                     {isLoggedIn ? (
-                        <button onClick={handleLogout} className="mi-nav-link" style={{ background: 'none', border: 'none', cursor: 'pointer' }}>
+                        <button onClick={handleLogout} className="mi-nav-link" style={{background: 'none', border: 'none', cursor: 'pointer'}}>
                             Cerrar Sesión
                         </button>
                     ) : (
@@ -33,4 +34,6 @@ function Nav({ cartCount, isLoggedIn, setIsLoggedIn }) {
         </nav>
     );
 }
+
+
 export default Nav;
