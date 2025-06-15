@@ -71,6 +71,7 @@ function Gallery({ agregarAlCarrito, isLoggedIn, carrito }) {
                         src={`https://api-fotos-juli.onrender.com/images/${foto.img}`}
                         alt={foto.name}
                         className="mi-gallery-img"
+                        onContextMenu={(e) => e.preventDefault()}
                     />
                     <p>{foto.name}</p>
                     <Button
