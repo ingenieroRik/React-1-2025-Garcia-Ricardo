@@ -54,12 +54,12 @@ function App() {
             setCarrito((prevCarrito) => prevCarrito.filter((foto) => foto.name !== fotoName));
         }
     };
-    const agregarAlCarrito = (fotoName) => {
-        const fotoExistente = carrito.find((foto) => foto.name === fotoName);
+    const agregarAlCarrito = (foto) => {
+        const fotoExistente = carrito.find((item) => item.id === foto.id);
         if (fotoExistente) {
             alert("La foto ya está en el carrito");
         } else {
-            setCarrito((prevCarrito) => [...prevCarrito, { name: fotoName, price: 15500 }]);
+            setCarrito((prevCarrito) => [...prevCarrito, { id: foto.id, name: foto.name , price: 15500 }]);
         }
     };
     const registrarCompra = (userId, compra) => {

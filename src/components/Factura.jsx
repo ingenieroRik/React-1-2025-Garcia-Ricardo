@@ -65,7 +65,10 @@ const Factura = () => {
                             <td>${item.price.toFixed(2)}</td>
                             <td>
                                 <button className="btn btn-success"
-                                    onClick={() => descargarImagen(`https://api-fotos-juli.onrender.com/api/fotos/${item.id}/img`)} 
+                                    onClick={() => descargarImagen(
+                                        `https://api-fotos-juli.onrender.com/api/fotos/${item.id}/img`,
+                                        `${item.name}.jpg`
+                                    )} 
                                 >
                                     Descargar
                                 </button>        

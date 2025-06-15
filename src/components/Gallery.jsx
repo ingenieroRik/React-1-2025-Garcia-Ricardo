@@ -34,18 +34,6 @@ function Gallery({ agregarAlCarrito, isLoggedIn, carrito }) {
     };
 /*
     const handleAgregar = (fotoName) => {
-        if (isLoggedIn) {
-            agregarAlCarrito(fotoName);
-             // Guardar la compra en el localStorage
-            const fecha = new Date().toLocaleDateString(); // Obtener la fecha actual
-            guardarCompra(fotoName, fecha);
-            
-        } else {
-            alert('Debes iniciar sesión para agregar productos al carrito.');
-        }
-    };
-*/
-    const handleAgregar = (fotoName) => {
     if (isLoggedIn) {
         // Verifica si la foto ya está en el carrito
         const fotoExistente = carrito.find((foto) => foto.name === fotoName);
@@ -56,6 +44,28 @@ function Gallery({ agregarAlCarrito, isLoggedIn, carrito }) {
             // Guardar la compra en el localStorage
             const fecha = new Date().toLocaleDateString(); // Obtener la fecha actual
             guardarCompra(fotoName, fecha);
+        }
+    } else {
+        alert('Debes iniciar sesión para agregar productos al carrito.');
+    }
+};
+*/
+
+const handleAgregar = (foto) => {
+    if (isLoggedIn) {
+        // Verifica si la foto ya está en el carrito por id
+        const fotoExistente = carrito.find((item) => item.id === foto.id);
+        if (fotoExistente) {
+            alert("La foto ya está en el carrito");
+        } else {
+            agregarAlCarrito({
+                id: foto.id,
+                name: foto.name,
+                price: foto.price
+            });
+            // Guardar la compra en el localStorage (opcional)
+            const fecha = new Date().toLocaleDateString();
+            guardarCompra(foto.name, fecha);
         }
     } else {
         alert('Debes iniciar sesión para agregar productos al carrito.');
@@ -77,7 +87,7 @@ function Gallery({ agregarAlCarrito, isLoggedIn, carrito }) {
                     <Button
                         variant="outline-secondary"
                         className="add-to-cart-btn"
-                        onClick={() => handleAgregar(foto.name)} 
+                        onClick={() => handleAgregar(foto)} 
                     >
                         Agregar al carrito
                     </Button>
