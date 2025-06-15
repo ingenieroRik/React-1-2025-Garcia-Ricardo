@@ -26,11 +26,17 @@ Sigue estos pasos para instalar y ejecutar la aplicación en tu máquina local:
 4. Inicia la aplicación: NPM RUN DEV
 5. Abre tu navegador y visita `http://localhost:5173`.
 
+
 ## Uso
 1. **Registro de Usuario**: Dirígete a la página de registro y completa el formulario para crear una cuenta.
 2. **Iniciar Sesión**: Una vez registrado, inicia sesión con tus credenciales.
 3. **Galería de Fotos**: Explora la galería de fotos. Puedes hacer clic en el botón "Agregar al carrito" para añadir fotos a tu carrito. Sola puedes elegir una foto de cada una.
 4. **Ver Carrito**: Dirígete a la página del carrito para ver las fotos que has agregado. Puedes eliminar fotos si lo deseas. Para volver a la galeria y seguir comprando haz click en "Todas las Fotos" en el extremo superior izquierdo.
 5. **Realizar Compra**: Si estás listo para comprar, haz clic en el botón "Comprar" en la página del carrito.
-6. **Cierra tu sesión al finalizar**
+6. **Revisar tus compras**: puedes hacer click en el boton "Mis Compras" y te mostrará las compras que hiciste
+en cada fecha.
+7. **Cierra tu sesión al finalizar**
 
+## Administrador
+1. **Iniciar sesión**: Inicia sesión con la clave del admimistrador y podras ver las compras de cada usuario.
+2. **Editar/Agregar/Eliminar Usuarios**: Puedes administrar los usuarios registrados, modificarlos y eliminarlos.
