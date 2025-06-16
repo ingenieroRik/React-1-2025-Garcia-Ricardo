@@ -36,4 +36,4 @@ function UsuariosVentas({ usuarios }) {
     );
 }
 
-export default UsuariosVentas
+export default UsuariosVentas;
