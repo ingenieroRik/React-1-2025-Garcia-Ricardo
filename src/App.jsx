@@ -14,6 +14,7 @@ import Factura from './components/Factura';
 import ListaUsuarios from './pages/ListaUsuarios';
 import UsuarioForm from './components/UsuarioForm';
 import Pago from './components/Pago';
+//import UsuariosVentas from './pages/UsuariosVentas'; // Asegúrate de que la ruta sea correcta
 
 function App() {
     // Usuarios por defecto
@@ -108,6 +109,7 @@ function App() {
                     path="/usuarios-ventas"
                     element={
                         <RutaProtegida isLoggedIn={isLoggedIn && currentUserEmail === adminEmail}>
+                          
                             <Container className="my-4">
                                 <h2>Gestión de Usuarios</h2>
                                 <UsuarioForm

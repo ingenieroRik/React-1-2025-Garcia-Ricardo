@@ -1,16 +1,7 @@
 import React from 'react';
 import { Table, Container } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-
 function UsuariosVentas({ usuarios }) {
-    // Leer todas las compras del localStorage
-    const comprasGuardadas = JSON.parse(localStorage.getItem('compras')) || [];
-
-    // Función para contar compras por email
-    const contarComprasPorEmail = (email) => {
-        return comprasGuardadas.filter(compra => compra.email === email).length;
-    };
-
     return (
         <Container className="mt-4">
             <h2>Lista de Usuarios y Compras</h2>
@@ -23,11 +14,11 @@ function UsuariosVentas({ usuarios }) {
                     </tr>
                 </thead>
                 <tbody>
-                    {usuarios.map((usuario) => (
-                        <tr key={usuario.id}>
+                    {usuarios.map((usuario, index) => (
+                        <tr key={index}>
                             <td>{usuario.nombre}</td>
                             <td>{usuario.email}</td>
-                            <td>{contarComprasPorEmail(usuario.email)}</td>
+                            <td>{usuario.compras.length}</td>
                         </tr>
                     ))}
                 </tbody>
@@ -35,5 +26,4 @@ function UsuariosVentas({ usuarios }) {
         </Container>
     );
 }
-
 export default UsuariosVentas;
