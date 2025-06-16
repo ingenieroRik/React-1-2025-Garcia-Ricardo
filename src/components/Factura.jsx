@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { jsPDF } from 'jspdf';
 import 'bootstrap/dist/css/bootstrap.min.css';
-const Factura = () => {
+
+const Factura = ({ setCarrito }) => {
     const location = useLocation();
     const { nombre, email, items, total } = location.state || {
         nombre: "Invitado",
@@ -10,6 +11,16 @@ const Factura = () => {
         items: [],
         total: 0,
     };
+
+  
+    // Solo vacía el carrito al montar el componente
+    useEffect(() => {
+        if (setCarrito) setCarrito([]);
+    }, [setCarrito]);
+
+
+
+
     const descargarFactura = () => {
         const doc = new jsPDF();
         doc.setFontSize(20);
@@ -26,6 +37,7 @@ const Factura = () => {
         doc.text(`Total: $${total.toFixed(2)}`, 10, y);
         doc.save('factura.pdf');
     };
+
     const descargarImagen = async (url, nombreArchivo) => {
         try {
             const response = await fetch(url);
@@ -42,6 +54,7 @@ const Factura = () => {
             console.error("Error descargando la imagen:", error);
         }
     };
+
     return (
         <div className="container mt-5">
             <h2 className="text-center">Factura</h2>
@@ -84,4 +97,5 @@ const Factura = () => {
         </div>
     );
 };
+
 export default Factura;

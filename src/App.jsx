@@ -13,6 +13,7 @@ import Miscompras from './components/Miscompras';
 import Factura from './components/Factura';
 import ListaUsuarios from './pages/ListaUsuarios';
 import UsuarioForm from './components/UsuarioForm';
+import Pago from './components/Pago';
 
 function App() {
     // Usuarios por defecto
@@ -23,12 +24,18 @@ function App() {
     ];
     const [usuarios, setUsuarios] = useState(usuariosPorDefecto);
     const [usuarioAEditar, setUsuarioAEditar] = useState(null);
-    const [contadorId, setContadorId] = useState(usuariosPorDefecto.length + 1);
+
+    //const [contadorId, setContadorId] = useState(4);
+    const [contadorId, setContadorId] = useState(
+        Math.max(...usuariosPorDefecto.map(u => u.id), 0) + 1
+        );
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [adminEmail] = useState('admin@admin.com');
     const [currentUserEmail, setCurrentUserEmail] = useState('');
     const [carrito, setCarrito] = useState([]);
+
     const agregarUsuario = (usuario) => {
+        //console.log('Agregando usuario con id:', contadorId);
         const nuevoUsuario = { ...usuario, id: contadorId, compras: usuario.compras || [] };
         setUsuarios([...usuarios, nuevoUsuario]);
         setContadorId(contadorId + 1);
@@ -118,17 +125,38 @@ function App() {
                         </RutaProtegida>
                     }
                 />
-                <Route path="/factura" element={
-                    <Factura
-                        name={usuarioActual.name}
-                        email={usuarioActual.email}
-                        items={carrito}
-                    />
-                } />
-                <Route path="/mis-compras" element={<Miscompras />} /> {/* Ruta para Mis Compras */}
+                <Route
+                    path="/factura"
+                    element={
+                        <RutaProtegida isLoggedIn={isLoggedIn}>
+                            <Factura
+                                name={usuarioActual.name}
+                                email={usuarioActual.email}
+                                items={carrito}
+                                setCarrito={setCarrito}
+                            />
+                        </RutaProtegida>
+                    }
+                />
+                <Route
+                    path="/mis-compras"
+                    element={
+                        <RutaProtegida isLoggedIn={isLoggedIn}>
+                            <Miscompras />
+                        </RutaProtegida>
+                    }
+                />
+                <Route
+                    path="/pago"
+                    element={
+                        <RutaProtegida isLoggedIn={isLoggedIn}>
+                            <Pago />
+                        </RutaProtegida>
+                    }
+                />
             </Routes>
             <Footer />
-        </Router>
+                  </Router>
     );
 }
 export default App;

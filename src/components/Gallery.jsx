@@ -53,8 +53,9 @@ function Gallery({ agregarAlCarrito, isLoggedIn, carrito }) {
     }, []);
 
     const guardarCompra = (nombre, fecha) => {
+        const email = localStorage.getItem('currentUserEmail');
         const comprasGuardadas = JSON.parse(localStorage.getItem('compras')) || [];
-        comprasGuardadas.push({ nombre, fecha });
+        comprasGuardadas.push({ nombre, fecha,email });
         localStorage.setItem('compras', JSON.stringify(comprasGuardadas));
     };
 
