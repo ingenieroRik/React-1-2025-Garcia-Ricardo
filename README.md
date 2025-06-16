@@ -26,6 +26,7 @@ Sigue estos pasos para instalar y ejecutar la aplicación en tu máquina local:
 4. Inicia la aplicación: NPM RUN DEV
 5. Abre tu navegador y visita `http://localhost:5173`.
 
+
 ## Uso
 1. **Registro de Usuario**: Dirígete a la página de registro y completa el formulario para crear una cuenta.
 2. **Iniciar Sesión**: Una vez registrado, inicia sesión con tus credenciales.
@@ -40,3 +41,6 @@ en cada fecha.
 1. **Iniciar sesión**: Inicia sesión con la clave del admimistrador y podras ver las compras de cada usuario.
 2. **Editar/Agregar/Eliminar Usuarios**: Puedes administrar los usuarios registrados, modificarlos y eliminarlos.
 
+## Administrador
+1. **Iniciar sesión**: Inicia sesión con la clave del admimistrador y podras ver las compras de cada usuario.
+2. **Editar/Agregar/Eliminar Usuarios**: Puedes administrar los usuarios registrados, modificarlos y eliminarlos.

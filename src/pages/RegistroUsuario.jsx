@@ -25,7 +25,7 @@ function RegistroUsuario({ registrarUsuario , usuarios }) {
         await new Promise(resolve => setTimeout(resolve, 1000));
         alert('Usuario registrado correctamente');
         
-        // Navegar al login
+
         navigate('/login');
     };
 

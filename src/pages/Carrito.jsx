@@ -3,7 +3,7 @@ import { Table, Button, Container, Row, Col } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useNavigate } from 'react-router-dom';
 
-function Carrito({ carrito, eliminarDelCarrito, usuarios, setUsuarios }) {
+function Carrito({ carrito, eliminarDelCarrito, usuarios}) {
     const total = carrito.reduce((acc, item) => acc + item.price, 0);
     const navigate = useNavigate();
 
@@ -21,24 +21,8 @@ function Carrito({ carrito, eliminarDelCarrito, usuarios, setUsuarios }) {
             const usuarioActual = usuarios.find(u => u.email === currentUserEmail);
             if (usuarioActual) {
                 const itemsComprados = [...carrito];
-                // Registrar la compra en el usuario actual
-                const nuevosUsuarios = usuarios.map(u => {
-                    if (u.email === usuarioActual.email) {
-                        return {
-                            ...u,
-                            compras: [...(u.compras || []), {
-                                fecha: new Date().toISOString(),
-                                total: total,
-                                items: itemsComprados
-                            }]
-                        };
-                    }
-                    return u;
-                });
-                setUsuarios(nuevosUsuarios);
-                eliminarDelCarrito('CLEAR_ALL');
-                alert('¡Compra realizada con éxito!');
-                navigate('/factura', {
+                // El registro de la compra y limpieza del carrito se hace después del pago exitoso
+                navigate('/pago', {
                     state: {
                         name: usuarioActual.nombre || usuarioActual.name,
                         email: usuarioActual.email,
@@ -100,7 +84,7 @@ function Carrito({ carrito, eliminarDelCarrito, usuarios, setUsuarios }) {
                 </Col>
             </Row>
         </Container>
-    );
+            );
 }
 
 export default Carrito;

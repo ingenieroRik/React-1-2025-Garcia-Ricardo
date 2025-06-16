@@ -13,22 +13,29 @@ import Miscompras from './components/Miscompras';
 import Factura from './components/Factura';
 import ListaUsuarios from './pages/ListaUsuarios';
 import UsuarioForm from './components/UsuarioForm';
+import Pago from './components/Pago';
 
 function App() {
     // Usuarios por defecto
     const usuariosPorDefecto = [
-        { id: 1, nombre: "Ana", email: "ana@email.com", compras: [{}] },
-        { id: 2, nombre: "Luis", email: "luis@email.com", compras: [{}] },
-        { id: 3, nombre: "Sofía", email: "sofia@email.com", compras: [{}] }
+        { id: 1, nombre: "Ana", email: "ana@email.com", compras: [] },
+        { id: 2, nombre: "Luis", email: "luis@email.com", compras: [] },
+        { id: 3, nombre: "Sofía", email: "sofia@email.com", compras: [] }
     ];
     const [usuarios, setUsuarios] = useState(usuariosPorDefecto);
     const [usuarioAEditar, setUsuarioAEditar] = useState(null);
-    const [contadorId, setContadorId] = useState(usuariosPorDefecto.length + 1);
+
+    
+    const [contadorId, setContadorId] = useState(
+        Math.max(...usuariosPorDefecto.map(u => u.id), 0) + 1
+        );
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [adminEmail] = useState('admin@admin.com');
     const [currentUserEmail, setCurrentUserEmail] = useState('');
     const [carrito, setCarrito] = useState([]);
+
     const agregarUsuario = (usuario) => {
+
         const nuevoUsuario = { ...usuario, id: contadorId, compras: usuario.compras || [] };
         setUsuarios([...usuarios, nuevoUsuario]);
         setContadorId(contadorId + 1);
@@ -54,12 +61,12 @@ function App() {
             setCarrito((prevCarrito) => prevCarrito.filter((foto) => foto.name !== fotoName));
         }
     };
-    const agregarAlCarrito = (fotoName) => {
-        const fotoExistente = carrito.find((foto) => foto.name === fotoName);
+    const agregarAlCarrito = (foto) => {
+        const fotoExistente = carrito.find((item) => item.id === foto.id);
         if (fotoExistente) {
             alert("La foto ya está en el carrito");
         } else {
-            setCarrito((prevCarrito) => [...prevCarrito, { name: fotoName, price: 15500 }]);
+            setCarrito((prevCarrito) => [...prevCarrito, { id: foto.id, name: foto.name , price: 15500 }]);
         }
     };
     const registrarCompra = (userId, compra) => {
@@ -101,6 +108,7 @@ function App() {
                     path="/usuarios-ventas"
                     element={
                         <RutaProtegida isLoggedIn={isLoggedIn && currentUserEmail === adminEmail}>
+                          
                             <Container className="my-4">
                                 <h2>Gestión de Usuarios</h2>
                                 <UsuarioForm
@@ -118,17 +126,38 @@ function App() {
                         </RutaProtegida>
                     }
                 />
-                <Route path="/factura" element={
-                    <Factura
-                        name={usuarioActual.name}
-                        email={usuarioActual.email}
-                        items={carrito}
-                    />
-                } />
-                <Route path="/mis-compras" element={<Miscompras />} /> {/* Ruta para Mis Compras */}
+                <Route
+                    path="/factura"
+                    element={
+                        <RutaProtegida isLoggedIn={isLoggedIn}>
+                            <Factura
+                                name={usuarioActual.name}
+                                email={usuarioActual.email}
+                                items={carrito}
+                                setCarrito={setCarrito}
+                            />
+                        </RutaProtegida>
+                    }
+                />
+                <Route
+                    path="/mis-compras"
+                    element={
+                        <RutaProtegida isLoggedIn={isLoggedIn}>
+                            <Miscompras />
+                        </RutaProtegida>
+                    }
+                />
+                <Route
+                    path="/pago"
+                    element={
+                        <RutaProtegida isLoggedIn={isLoggedIn}>
+                            <Pago />
+                        </RutaProtegida>
+                    }
+                />
             </Routes>
             <Footer />
-        </Router>
+                  </Router>
     );
 }
 export default App;

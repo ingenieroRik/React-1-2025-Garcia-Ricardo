@@ -1,10 +1,39 @@
-
-
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import Button from 'react-bootstrap/Button';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../App.css';
-//import Carrito from './pages/Carrito';
+
+// Componente para mostrar la imagen en un canvas
+function ImagenDesdeAPI({ imageUrl, alt, width = 300, height = 400 }) {
+  const canvasRef = useRef();
+
+  useEffect(() => {
+    const img = new window.Image();
+    img.crossOrigin = 'anonymous';
+    img.src = imageUrl;
+
+    img.onload = () => {
+      const canvas = canvasRef.current;
+      const ctx = canvas.getContext('2d');
+      canvas.width = width;
+      canvas.height = height;
+      // Dibuja la imagen escalada al tamaño fijo
+      ctx.clearRect(0, 0, width, height);
+      ctx.drawImage(img, 0, 0, width, height);
+    };
+  }, [imageUrl, width, height]);
+
+  return (
+    <canvas
+      ref={canvasRef}
+      width={width}
+      height={height}
+      style={{ maxWidth: '100%', display: 'block', margin: '0 auto', background: '#eee' }}
+      aria-label={alt}
+      onContextMenu={e => e.preventDefault()}
+    />
+  );
+}
 
 function Gallery({ agregarAlCarrito, isLoggedIn, carrito }) { 
     const [fotos, setFotos] = useState([]);
@@ -23,60 +52,45 @@ function Gallery({ agregarAlCarrito, isLoggedIn, carrito }) {
         Fotos();
     }, []);
 
-
     const guardarCompra = (nombre, fecha) => {
+        const email = localStorage.getItem('currentUserEmail');
         const comprasGuardadas = JSON.parse(localStorage.getItem('compras')) || [];
-
-
-        
-        comprasGuardadas.push({ nombre, fecha });
+        comprasGuardadas.push({ nombre, fecha,email });
         localStorage.setItem('compras', JSON.stringify(comprasGuardadas));
     };
-/*
-    const handleAgregar = (fotoName) => {
+
+    const handleAgregar = (foto) => {
         if (isLoggedIn) {
-            agregarAlCarrito(fotoName);
-             // Guardar la compra en el localStorage
-            const fecha = new Date().toLocaleDateString(); // Obtener la fecha actual
-            guardarCompra(fotoName, fecha);
-            
+            const fotoExistente = carrito.find((item) => item.id === foto.id);
+            if (fotoExistente) {
+                alert("La foto ya está en el carrito");
+            } else {
+                agregarAlCarrito({
+                    id: foto.id,
+                    name: foto.name,
+                    price: foto.price
+                });
+                const fecha = new Date().toLocaleDateString();
+                guardarCompra(foto.name, fecha);
+            }
         } else {
             alert('Debes iniciar sesión para agregar productos al carrito.');
         }
     };
-*/
-    const handleAgregar = (fotoName) => {
-    if (isLoggedIn) {
-        // Verifica si la foto ya está en el carrito
-        const fotoExistente = carrito.find((foto) => foto.name === fotoName);
-        if (fotoExistente) {
-            alert("La foto ya está en el carrito");
-        } else {
-            agregarAlCarrito(fotoName);
-            // Guardar la compra en el localStorage
-            const fecha = new Date().toLocaleDateString(); // Obtener la fecha actual
-            guardarCompra(fotoName, fecha);
-        }
-    } else {
-        alert('Debes iniciar sesión para agregar productos al carrito.');
-    }
-};
-
 
     return (
         <section className="mi-galleryDiv">
             {fotos.map((foto, index) => (
                 <div key={index} className="mi-gallery-item">
-                    <img
-                        src={`https://api-fotos-juli.onrender.com/images/${foto.img}`}
+                    <ImagenDesdeAPI
+                        imageUrl={`https://api-fotos-juli.onrender.com/images/${foto.img}`}
                         alt={foto.name}
-                        className="mi-gallery-img"
                     />
                     <p>{foto.name}</p>
                     <Button
                         variant="outline-secondary"
                         className="add-to-cart-btn"
-                        onClick={() => handleAgregar(foto.name)} 
+                        onClick={() => handleAgregar(foto)} 
                     >
                         Agregar al carrito
                     </Button>
@@ -87,4 +101,3 @@ function Gallery({ agregarAlCarrito, isLoggedIn, carrito }) {
 }
 
 export default Gallery;
-

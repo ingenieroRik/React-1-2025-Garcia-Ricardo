@@ -1,13 +1,14 @@
-
-
 import React, { useEffect, useState } from 'react';
 import { Table } from 'react-bootstrap';
+
 const MisCompras = () => {
     const [compras, setCompras] = useState([]);
     useEffect(() => {
-        // Cargar las compras del localStorage
+        const email = localStorage.getItem('currentUserEmail');
         const comprasGuardadas = JSON.parse(localStorage.getItem('compras')) || [];
-        setCompras(comprasGuardadas);
+        // Filtrar solo las compras del usuario logueado
+        const comprasUsuario = comprasGuardadas.filter(compra => compra.email === email);
+        setCompras(comprasUsuario);
     }, []);
     return (
         <div>
@@ -31,4 +32,5 @@ const MisCompras = () => {
         </div>
     );
 };
+
 export default MisCompras;

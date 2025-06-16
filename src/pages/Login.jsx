@@ -22,8 +22,8 @@ function Login({ usuarios, setIsLoggedIn,setCurrentUserEmail }) {
             {
         setMensaje('¡Login de administrador exitoso!');
         setIsLoggedIn(true);
-        setCurrentUserEmail(email); // Agregar esta línea
-        localStorage.setItem('currentUserEmail', email); // Agregar esta línea
+        setCurrentUserEmail(email); 
+        localStorage.setItem('currentUserEmail', email); 
         setTimeout(() => {
             setMensaje('');
             navigate('/usuarios-ventas');
@@ -35,8 +35,8 @@ function Login({ usuarios, setIsLoggedIn,setCurrentUserEmail }) {
     if (usuario) {
         setMensaje('¡Login exitoso!');
         setIsLoggedIn(true);
-        setCurrentUserEmail(email); // Agregar esta línea
-        localStorage.setItem('currentUserEmail', email); // Agregar esta línea
+        setCurrentUserEmail(email); 
+        localStorage.setItem('currentUserEmail', email); 
         setTimeout(() => {
             setMensaje('');
             navigate('/');

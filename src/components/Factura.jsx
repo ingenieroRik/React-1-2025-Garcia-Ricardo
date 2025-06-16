@@ -1,10 +1,26 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { jsPDF } from 'jspdf';
 import 'bootstrap/dist/css/bootstrap.min.css';
-const Factura = () => {
+
+const Factura = ({ setCarrito }) => {
     const location = useLocation();
-    const { nombre, email, items, total } = location.state || { name: "Invitado", email: "invitado@example.com", items: [], total: 0 };
+    const { nombre, email, items, total } = location.state || {
+        nombre: "Invitado",
+        email: "invitado@example.com",
+        items: [],
+        total: 0,
+    };
+
+  
+    // Solo vacía el carrito al montar el componente
+    useEffect(() => {
+        if (setCarrito) setCarrito([]);
+    }, [setCarrito]);
+
+
+
+
     const descargarFactura = () => {
         const doc = new jsPDF();
         doc.setFontSize(20);
@@ -21,6 +37,24 @@ const Factura = () => {
         doc.text(`Total: $${total.toFixed(2)}`, 10, y);
         doc.save('factura.pdf');
     };
+
+    const descargarImagen = async (url, nombreArchivo) => {
+        try {
+            const response = await fetch(url);
+            const blob = await response.blob();
+            const urlBlob = window.URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = urlBlob;
+            link.download = nombreArchivo;
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+            window.URL.revokeObjectURL(urlBlob);
+        } catch (error) {
+            console.error("Error descargando la imagen:", error);
+        }
+    };
+
     return (
         <div className="container mt-5">
             <h2 className="text-center">Factura</h2>
@@ -34,6 +68,7 @@ const Factura = () => {
                     <tr>
                         <th>Nombre del Producto</th>
                         <th>Precio</th>
+                        <th>Descargar Imagen</th> 
                     </tr>
                 </thead>
                 <tbody>
@@ -41,6 +76,16 @@ const Factura = () => {
                         <tr key={index}>
                             <td>{item.name}</td>
                             <td>${item.price.toFixed(2)}</td>
+                            <td>
+                                <button className="btn btn-success"
+                                    onClick={() => descargarImagen(
+                                        `https://api-fotos-juli.onrender.com/api/fotos/${item.id}/img`,
+                                        `${item.name}.jpg`
+                                    )} 
+                                >
+                                    Descargar
+                                </button>        
+                            </td>
                         </tr>
                     ))}
                 </tbody>
@@ -52,4 +97,5 @@ const Factura = () => {
         </div>
     );
 };
+
 export default Factura;
