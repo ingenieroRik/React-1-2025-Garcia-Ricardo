@@ -14,19 +14,18 @@ import Factura from './components/Factura';
 import ListaUsuarios from './pages/ListaUsuarios';
 import UsuarioForm from './components/UsuarioForm';
 import Pago from './components/Pago';
-//import UsuariosVentas from './pages/UsuariosVentas'; // Asegúrate de que la ruta sea correcta
 
 function App() {
     // Usuarios por defecto
     const usuariosPorDefecto = [
-        { id: 1, nombre: "Ana", email: "ana@email.com", compras: [{}] },
-        { id: 2, nombre: "Luis", email: "luis@email.com", compras: [{}] },
-        { id: 3, nombre: "Sofía", email: "sofia@email.com", compras: [{}] }
+        { id: 1, nombre: "Ana", email: "ana@email.com", compras: [] },
+        { id: 2, nombre: "Luis", email: "luis@email.com", compras: [] },
+        { id: 3, nombre: "Sofía", email: "sofia@email.com", compras: [] }
     ];
     const [usuarios, setUsuarios] = useState(usuariosPorDefecto);
     const [usuarioAEditar, setUsuarioAEditar] = useState(null);
 
-    //const [contadorId, setContadorId] = useState(4);
+    
     const [contadorId, setContadorId] = useState(
         Math.max(...usuariosPorDefecto.map(u => u.id), 0) + 1
         );
@@ -36,7 +35,7 @@ function App() {
     const [carrito, setCarrito] = useState([]);
 
     const agregarUsuario = (usuario) => {
-        //console.log('Agregando usuario con id:', contadorId);
+
         const nuevoUsuario = { ...usuario, id: contadorId, compras: usuario.compras || [] };
         setUsuarios([...usuarios, nuevoUsuario]);
         setContadorId(contadorId + 1);
